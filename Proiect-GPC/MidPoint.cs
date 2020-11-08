@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace Proiect_GPC
 {
     static class MidPoint
     {
-        public static void DrawLine(Point point1, Point point2)
+        public static void DrawLine(Bitmap bmp, Point point1, Point point2)
         {
             // check if case 3/4/5/6 and invert points if so
             if (point1.X > point2.X)
@@ -77,7 +78,7 @@ namespace Proiect_GPC
             // display points
             foreach (Point p in ret)
             {
-                Console.WriteLine(p);
+                bmp.SetPixel(p.X, p.Y, Color.White);
             }
         }
 
