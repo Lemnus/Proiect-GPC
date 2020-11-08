@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,6 +25,8 @@ namespace Proiect_GPC
     {
         List<Point> points;
         bool isRotating = false;
+        CancellationTokenSource infoUpdateToken;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -32,11 +35,22 @@ namespace Proiect_GPC
 
         private void AddNewPoint(object sender, RoutedEventArgs e)
         {
-            int x = int.Parse(XInput.Text);
-            XInput.Text = "";
-            int y = int.Parse(YInput.Text);
-            YInput.Text = "";
-            points.Add(new Point(x, y));
+            try
+            {
+                int x = int.Parse(XInput.Text);
+                int y = int.Parse(YInput.Text);
+                points.Add(new Point(x, y));
+                UpdateInfo("Point added!", 2000);
+            }
+            catch
+            {
+                UpdateInfo("Invalid point input!", 2000);
+            }
+            finally
+            {
+                XInput.Text = "";
+                YInput.Text = "";
+            }
         }
 
         private void ClearPoints(object sender, RoutedEventArgs e)
@@ -48,6 +62,33 @@ namespace Proiect_GPC
         {
             isRotating = !isRotating;
             RotationButton.Content = isRotating ? "Stop rotating" : "Start rotating";
+        }
+
+        private void UpdateInfo(string message, int timeout)
+        {
+            if (infoUpdateToken != null)
+            {
+                infoUpdateToken.Cancel();
+            } 
+
+            InfoLabel.Content = message;
+            infoUpdateToken = new CancellationTokenSource();
+
+            new Task(() =>
+            {
+                CancellationTokenSource tokenSource = infoUpdateToken;
+                tokenSource.Token.WaitHandle.WaitOne(timeout);
+
+                if (tokenSource.Token.IsCancellationRequested)
+                {
+                    return;
+                }
+                Dispatcher.Invoke(() =>
+                {
+                    InfoLabel.Content = "";
+                });
+
+            }, infoUpdateToken.Token).Start();
         }
     }
 }
