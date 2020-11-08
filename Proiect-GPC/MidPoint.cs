@@ -11,7 +11,7 @@ namespace Proiect_GPC
     {
         public static void DrawLine(Point point1, Point point2)
         {
-            // check if case 3/4/5/6 and inverted points when necesarry
+            // check if case 3/4/5/6 and invert points if so
             if (point1.X > point2.X)
                 Swap(ref point1, ref point2);
 
@@ -27,8 +27,6 @@ namespace Proiect_GPC
             int moddy = Math.Abs(dy);
             bool invertedAxis = moddx < moddy;
             bool negativeY = dy < 0;
-
-            Console.WriteLine(invertedAxis + " INVERTEDAXISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
 
             List<Point> deltaList;
 
@@ -76,9 +74,6 @@ namespace Proiect_GPC
                 }
             }
 
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("Mapped: ");
             // display points
             foreach (Point p in ret)
             {
@@ -116,13 +111,6 @@ namespace Proiect_GPC
                     d += (dy - dx);
                     y++;
                 }
-            }
-
-            // display delta
-            Console.WriteLine("Delta list: ");
-            foreach (Point p in list)
-            {
-                Console.WriteLine(p);
             }
 
             return list;
