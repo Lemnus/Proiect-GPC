@@ -12,8 +12,8 @@
         <TextBox x:Name="YInput" HorizontalAlignment="Left" Height="23" Margin="64,451,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="63"/>
         <Label Content="X: " HorizontalAlignment="Left" Margin="10,411,0,0" VerticalAlignment="Top" Width="47"/>
         <Label Content="Y: " HorizontalAlignment="Left" Margin="12,451,0,0" VerticalAlignment="Top" Width="47"/>
-        <Button Content="Clear Points" HorizontalAlignment="Left" Margin="143,414,0,0" VerticalAlignment="Top" Width="75" Click="ClearPoints" />
-        <Button Content="Add Point" HorizontalAlignment="Left" Margin="143,454,0,0" VerticalAlignment="Top" Width="75" Click="AddNewPoint"/>
-        <Button x:Name="RotationButton" Content="Start Rotating" HorizontalAlignment="Left" Margin="246,454,0,0" VerticalAlignment="Top" Width="154" Click="ChangeRotationStatus"/>
+        <Button Content="Clear Points" HorizontalAlignment="Left" Margin="143,411,0,0" VerticalAlignment="Top" Width="75" Click="ClearPoints" Height="23" />
+        <Button Content="Add Point" HorizontalAlignment="Left" Margin="143,451,0,0" VerticalAlignment="Top" Width="75" Click="AddNewPoint" Height="23"/>
+        <Button x:Name="RotationButton" Content="Start Rotating" HorizontalAlignment="Left" Margin="234,451,0,0" VerticalAlignment="Top" Width="154" Click="ChangeRotationStatus" Height="23"/>
     </Grid>
 </Window>
