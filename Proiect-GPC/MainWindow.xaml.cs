@@ -47,10 +47,7 @@ namespace Proiect_GPC
         private void ChangeRotationStatus(object sender, RoutedEventArgs e)
         {
             isRotating = !isRotating;
-            if (isRotating)
-                RotationButton.Content = "Stop rotating";
-            else
-                RotationButton.Content = "Start rotating";
+            RotationButton.Content = isRotating ? "Stop rotating" : "Start rotating";
         }
     }
 }
