@@ -28,6 +28,11 @@ namespace Proiect_GPC
         {
             InitializeComponent();
             points = new List<Point>();
+
+            Point point1 = new Point(0, 0);
+            Point point2 = new Point(-15, -1);
+
+            MidPoint.DrawLine(point1, point2);
         }
 
         private void AddNewPoint(object sender, RoutedEventArgs e)
