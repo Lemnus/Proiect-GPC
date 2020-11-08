@@ -33,11 +33,6 @@ namespace Proiect_GPC
         {
             InitializeComponent();
             points = new List<Point>();
-
-            Point point1 = new Point(0, 0);
-            Point point2 = new Point(-15, -1);
-
-            MidPoint.DrawLine(point1, point2);
         }
 
         private void AddNewPoint(object sender, RoutedEventArgs e)
@@ -73,10 +68,11 @@ namespace Proiect_GPC
 
         private void TestDrawLine(Bitmap bmp)
         {
-            for (int i = 100; i < 300; ++i)
-            {
-                bmp.SetPixel(i, 100, Color.White);
-            }
+            MidPoint.DrawLine(bmp, new Point(250, 250), new Point(0, 0));
+            MidPoint.DrawLine(bmp, new Point(250, 250), new Point(100, 350));
+            MidPoint.DrawLine(bmp, new Point(250, 250), new Point(350, 0));
+            MidPoint.DrawLine(bmp, new Point(250, 250), new Point(250, 100));
+            MidPoint.DrawLine(bmp, new Point(250, 250), new Point(350, 300));
         }
 
         private void UpdateInfo(string message, int timeout)
