@@ -15,6 +15,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Point = System.Drawing.Point;
+using Color = System.Drawing.Color;
+using System.IO;
 
 namespace Proiect_GPC
 {
@@ -64,12 +66,20 @@ namespace Proiect_GPC
             RotationButton.Content = isRotating ? "Stop rotating" : "Start rotating";
         }
 
+        private void TestDrawLine(Bitmap bmp)
+        {
+            for (int i = 100; i < 300; ++i)
+            {
+                bmp.SetPixel(i, 100, Color.White);
+            }
+        }
+
         private void UpdateInfo(string message, int timeout)
         {
             if (infoUpdateToken != null)
             {
                 infoUpdateToken.Cancel();
-            } 
+            }
 
             InfoLabel.Content = message;
             infoUpdateToken = new CancellationTokenSource();
@@ -89,6 +99,31 @@ namespace Proiect_GPC
                 });
 
             }, infoUpdateToken.Token).Start();
+        }
+
+        private ImageSource FromBitmap(Bitmap bitmap)
+        {
+
+            using (MemoryStream memory = new MemoryStream())
+            {
+                bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
+                memory.Position = 0;
+                BitmapImage bitmapimage = new BitmapImage();
+                bitmapimage.BeginInit();
+                bitmapimage.StreamSource = memory;
+                bitmapimage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapimage.EndInit();
+
+                return bitmapimage;
+            }
+        }
+
+
+        private void WindowLoaded(object sender, EventArgs e)
+        {
+            Bitmap bmp = new Bitmap((int)Math.Floor(MainDisplay.Width), (int)Math.Floor(MainDisplay.Height));
+            TestDrawLine(bmp);
+            MainDisplay.Source = FromBitmap(bmp);
         }
     }
 }
