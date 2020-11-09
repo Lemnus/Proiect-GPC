@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Proiect_GPC"
         mc:Ignorable="d"
-        Title="MainWindow" Height="543.372" Width="800" ContentRendered="WindowLoaded">
+        Title="MainWindow" Height="530" Width="807" ContentRendered="WindowLoaded">
     <Grid>
-        <Image x:Name="MainDisplay" HorizontalAlignment="Left" Height="363" Margin="10,10,0,0" VerticalAlignment="Top" Width="772"/>
+        <Image x:Name="MainDisplay" Margin="10,10,0,0" Height="389" VerticalAlignment="Top" HorizontalAlignment="Left" Width="772"/>
         <TextBox x:Name="XInput" HorizontalAlignment="Left" Height="23" Margin="64,411,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="63"/>
         <TextBox x:Name="YInput" HorizontalAlignment="Left" Height="23" Margin="64,451,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="63"/>
         <Label Content="X: " HorizontalAlignment="Left" Margin="12,408,0,0" VerticalAlignment="Top" Width="47"/>
