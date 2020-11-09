@@ -35,19 +35,19 @@ namespace Proiect_GPC
             {
                 if(negativeY)
                     // caz 7
-                    deltaList = getDeltaList(-dy, dx);
+                    deltaList = GetDeltaList(-dy, dx);
                 else
                     // caz 2
-                    deltaList = getDeltaList(dy, dx);
+                    deltaList = GetDeltaList(dy, dx);
             }
             else
             {
                 if(negativeY)
                     //caz 8
-                    deltaList = getDeltaList(dx, -dy);
+                    deltaList = GetDeltaList(dx, -dy);
                 else
                     //caz 1
-                    deltaList = getDeltaList(dx, dy);
+                    deltaList = GetDeltaList(dx, dy);
             }
 
             List<Point> ret = new List<Point>();
@@ -83,7 +83,7 @@ namespace Proiect_GPC
         }
 
         // return a list of deltas for each point (considering starting point as origin)
-        static List<Point> getDeltaList(int X2, int Y2, int X1 = 0, int Y1 = 0)
+        private static List<Point> GetDeltaList(int X2, int Y2, int X1 = 0, int Y1 = 0)
         {
             List<Point> list = new List<Point>();
             // calculate dx & dy 
@@ -117,7 +117,7 @@ namespace Proiect_GPC
             return list;
         }
 
-        static void Swap(ref Point p1, ref Point p2)
+        private static void Swap(ref Point p1, ref Point p2)
         {
             Point temp = p1;
             p1 = p2;
