@@ -5,16 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Proiect_GPC"
         mc:Ignorable="d"
-        Title="MainWindow" Height="530" Width="807" ContentRendered="WindowLoaded">
+        Title="MainWindow" Height="614.525" Width="808">
     <Grid>
-        <Image x:Name="MainDisplay" Margin="10,10,0,0" Height="389" VerticalAlignment="Top" HorizontalAlignment="Left" Width="772"/>
-        <TextBox x:Name="XInput" HorizontalAlignment="Left" Height="23" Margin="64,411,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="63"/>
-        <TextBox x:Name="YInput" HorizontalAlignment="Left" Height="23" Margin="64,451,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="63"/>
-        <Label Content="X: " HorizontalAlignment="Left" Margin="12,408,0,0" VerticalAlignment="Top" Width="47"/>
+        <Image x:Name="MainDisplay" Margin="17,24,0,0" Height="375" VerticalAlignment="Top" HorizontalAlignment="Left" Width="758"/>
+        <TextBox x:Name="XInput" HorizontalAlignment="Left" Height="26" Margin="64,417,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="63"/>
+        <TextBox x:Name="YInput" HorizontalAlignment="Left" Height="26" Margin="64,448,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="63"/>
+        <Label Content="X: " HorizontalAlignment="Left" Margin="12,417,0,0" VerticalAlignment="Top" Width="47"/>
         <Label Content="Y: " HorizontalAlignment="Left" Margin="12,448,0,0" VerticalAlignment="Top" Width="47"/>
-        <Button Content="Clear Points" HorizontalAlignment="Left" Margin="143,411,0,0" VerticalAlignment="Top" Width="75" Click="ClearPoints" Height="23" />
-        <Button Content="Add Point" HorizontalAlignment="Left" Margin="143,451,0,0" VerticalAlignment="Top" Width="75" Click="AddNewPoint" Height="23"/>
-        <Button x:Name="RotationButton" Content="Start Rotating" HorizontalAlignment="Left" Margin="234,451,0,0" VerticalAlignment="Top" Width="154" Click="ChangeRotationStatus" Height="23"/>
-        <Label x:Name="InfoLabel" Content="" HorizontalAlignment="Left" Margin="393,448,0,0" VerticalAlignment="Top" Height="26" Width="389" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Button Content="Clear Points" HorizontalAlignment="Left" Margin="143,417,0,0" VerticalAlignment="Top" Width="75" Click="ClearPoints" Height="26" />
+        <Button Content="Add Point" HorizontalAlignment="Left" Margin="143,448,0,0" VerticalAlignment="Top" Width="75" Click="AddNewPoint" Height="26"/>
+        <Button x:Name="RotationButton" Content="Rotate" HorizontalAlignment="Left" Margin="143,479,0,0" VerticalAlignment="Top" Width="75" Click="RotatePoints" Height="26"/>
+        <Label x:Name="InfoLabel" Content="" Margin="223,417,10,0" VerticalAlignment="Top" Height="150" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="AngleInput" HorizontalAlignment="Left" Height="26" Margin="64,479,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="63"/>
+        <Label x:Name="AngleLabel" Content="Angle:" HorizontalAlignment="Left" Margin="12,479,0,0" VerticalAlignment="Top" Width="47"/>
+        <Button x:Name="SetPivotButton" Content="Set Pivot" HorizontalAlignment="Left" Margin="143,510,0,0" VerticalAlignment="Top" Width="75" Height="57" Click="SetPivot"/>
+        <TextBox x:Name="PivotInputX" HorizontalAlignment="Left" Height="26" Margin="64,510,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="63"/>
+        <Label x:Name="PivotLabelX" Content="Pivot X:" HorizontalAlignment="Left" Margin="12,510,0,0" VerticalAlignment="Top" Width="47"/>
+        <TextBox x:Name="PivotInputY" HorizontalAlignment="Left" Height="26" Margin="64,541,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="63"/>
+        <Label x:Name="PivotLabelY" Content="Pivot Y:" HorizontalAlignment="Left" Margin="12,541,0,0" VerticalAlignment="Top" Width="47"/>
     </Grid>
 </Window>

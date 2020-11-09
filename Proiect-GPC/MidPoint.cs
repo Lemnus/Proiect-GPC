@@ -10,118 +10,44 @@ namespace Proiect_GPC
 {
     static class MidPoint
     {
-        public static void DrawLine(Bitmap bmp, Point point1, Point point2)
+        private static void DrawLine(Point a, Point b, Bitmap bitmap)
         {
-            // check if case 3/4/5/6 and invert points if so
-            if (point1.X > point2.X)
-                Swap(ref point1, ref point2);
+            decimal dX = b.X - a.X;
+            decimal dY = b.Y - a.Y;
 
-            int X1 = point1.X;
-            int Y1 = point1.Y;
-            int X2 = point2.X;
-            int Y2 = point2.Y;
-
-            // set dimension with biggest difference as X-axis
-            int dx = X2 - X1;
-            int dy = Y2 - Y1;
-            int moddx = Math.Abs(dx);
-            int moddy = Math.Abs(dy);
-            bool invertedAxis = moddx < moddy;
-            bool negativeY = dy < 0;
-
-            List<Point> deltaList;
-
-            if (invertedAxis)
+            (decimal, decimal) scale(decimal percentage)
             {
-                if(negativeY)
-                    // caz 7
-                    deltaList = GetDeltaList(-dy, dx);
-                else
-                    // caz 2
-                    deltaList = GetDeltaList(dy, dx);
-            }
-            else
-            {
-                if(negativeY)
-                    //caz 8
-                    deltaList = GetDeltaList(dx, -dy);
-                else
-                    //caz 1
-                    deltaList = GetDeltaList(dx, dy);
+                return (a.X + percentage * dX, a.Y + percentage * dY);
             }
 
-            List<Point> ret = new List<Point>();
+            int maxPixels = (int)Math.Max(Math.Abs(dX), Math.Abs(dY));
+            decimal stepLength = 1M / maxPixels;
 
-            // add mapped values in ret
-            foreach (Point p in deltaList)
+            for (int i = 0; i < maxPixels; ++i)
             {
-                if (invertedAxis)
+                var (x, y) = scale(i * stepLength);
+                int pixelX = (int)Math.Round(x);
+                int pixelY = (int)Math.Round(y);
+                try
                 {
-                    if (negativeY)
-                        // caz 7
-                        ret.Add(new Point(X1 + p.Y, Y1 - p.X));
-                    else
-                        //caz 2
-                        ret.Add(new Point(Y1 + p.Y, X1 + p.X));
+                    bitmap.SetPixel(pixelX, pixelY, Color.White);
                 }
-                else
-                {
-                    if (negativeY)
-                        //caz 8
-                        ret.Add(new Point(X1 + p.X, Y1 - p.Y));
-                    else
-                        // caz 1
-                        ret.Add(new Point(X1 + p.X, Y1 + p.Y));
-                }
-            }
-
-            // display points
-            foreach (Point p in ret)
-            {
-                bmp.SetPixel(p.X, p.Y, Color.White);
+                catch (ArgumentOutOfRangeException) { }
             }
         }
 
-        // return a list of deltas for each point (considering starting point as origin)
-        private static List<Point> GetDeltaList(int X2, int Y2, int X1 = 0, int Y1 = 0)
+        public static void DrawShape(List<Point> points, Bitmap bmp)
         {
-            List<Point> list = new List<Point>();
-            // calculate dx & dy 
-            int dx = X2 - X1;
-            int dy = Y2 - Y1;
-
-            // initial value of decision 
-            // parameter d 
-            int d = dy - (dx / 2);
-            int x = X1, y = Y1;
-
-            // iterate through value of X 
-            while (x <= X2)
+            if (points.Count < 2)
             {
-                list.Add(new Point(x, y));
-
-                x++;
-
-                // E or East is chosen 
-                if (d < 0)
-                    d = d + dy;
-
-                // NE or North East is chosen 
-                else
-                {
-                    d += (dy - dx);
-                    y++;
-                }
+                return;
             }
 
-            return list;
+            for (int i = 1; i < points.Count; ++i)
+            {
+                DrawLine(points[i - 1], points[i], bmp);
+            }
         }
 
-        private static void Swap(ref Point p1, ref Point p2)
-        {
-            Point temp = p1;
-            p1 = p2;
-            p2 = temp;
-        }
     }
 }

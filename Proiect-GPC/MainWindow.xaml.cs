@@ -25,14 +25,20 @@ namespace Proiect_GPC
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<Point> points;
-        bool isRotating = false;
-        CancellationTokenSource infoUpdateToken;
+        private static readonly Point DEFAULT_PIVOT = new Point(-1, -1);
+        private bool customPivotSet = false;
+
+        private List<Point> unrotatedPoints;
+        private List<Point> displayPoints;
+        private Point pivot = DEFAULT_PIVOT;
+        private CancellationTokenSource infoUpdateToken;
 
         public MainWindow()
         {
             InitializeComponent();
-            points = new List<Point>();
+            unrotatedPoints = new List<Point>();
+            displayPoints = new List<Point>();
+            MainDisplay.Source = Utils.FromBitmap(Utils.GetEmptyBitmap(MainDisplay));
         }
 
         private void AddNewPoint(object sender, RoutedEventArgs e)
@@ -41,7 +47,13 @@ namespace Proiect_GPC
             {
                 int x = int.Parse(XInput.Text);
                 int y = int.Parse(YInput.Text);
-                points.Add(new Point(x, y));
+                unrotatedPoints.Add(new Point(x, y));
+                displayPoints = new List<Point>(unrotatedPoints);
+                if (!customPivotSet)
+                {
+                    pivot = Utils.CenterPoint(unrotatedPoints);
+                }
+                UpdateBoard();
                 UpdateInfo("Point added!", 2000);
             }
             catch
@@ -57,22 +69,58 @@ namespace Proiect_GPC
 
         private void ClearPoints(object sender, RoutedEventArgs e)
         {
-            points.Clear();
+            displayPoints.Clear();
+            unrotatedPoints.Clear();
+            pivot = DEFAULT_PIVOT;
+            customPivotSet = false;
+            UpdateBoard();
+            UpdateInfo("Board cleared!", 2000);
         }
 
-        private void ChangeRotationStatus(object sender, RoutedEventArgs e)
+        private void RotatePoints(object sender, RoutedEventArgs e)
         {
-            isRotating = !isRotating;
-            RotationButton.Content = isRotating ? "Stop rotating" : "Start rotating";
+            try
+            {
+                decimal angle = decimal.Parse(AngleInput.Text);
+                displayPoints = Rotation.RotatePoints(unrotatedPoints, angle, pivot);
+                UpdateBoard();
+                UpdateInfo("Shape rotated!", 2000);
+            }
+            catch
+            {
+                UpdateInfo("Invalid rotation angle input!", 2000);
+            }
+            finally
+            {
+                AngleInput.Text = "";
+            }
         }
 
-        private void TestDrawLine(Bitmap bmp)
+        private void SetPivot(object sender, RoutedEventArgs e)
         {
-            MidPoint.DrawLine(bmp, new Point(250, 250), new Point(0, 0));
-            MidPoint.DrawLine(bmp, new Point(250, 250), new Point(100, 350));
-            MidPoint.DrawLine(bmp, new Point(250, 250), new Point(350, 0));
-            MidPoint.DrawLine(bmp, new Point(250, 250), new Point(250, 100));
-            MidPoint.DrawLine(bmp, new Point(250, 250), new Point(350, 300));
+            try
+            {
+                int x = int.Parse(PivotInputX.Text);
+                int y = int.Parse(PivotInputY.Text);
+                pivot = new Point(x, y);
+                customPivotSet = true;
+                UpdateBoard();
+            }
+            catch
+            {
+                UpdateInfo("Invalid pivot point input!", 2000);
+            }
+        }
+
+        private void UpdateBoard()
+        {
+            Bitmap bmp = Utils.GetEmptyBitmap(MainDisplay);
+            if (pivot != DEFAULT_PIVOT)
+            {
+                bmp.SetPixel(pivot.X, pivot.Y, Color.White);
+            }
+            MidPoint.DrawShape(displayPoints, bmp);
+            MainDisplay.Source = Utils.FromBitmap(bmp);
         }
 
         private void UpdateInfo(string message, int timeout)
@@ -100,31 +148,6 @@ namespace Proiect_GPC
                 });
 
             }, infoUpdateToken.Token).Start();
-        }
-
-        private ImageSource FromBitmap(Bitmap bitmap)
-        {
-
-            using (MemoryStream memory = new MemoryStream())
-            {
-                bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
-                memory.Position = 0;
-                BitmapImage bitmapimage = new BitmapImage();
-                bitmapimage.BeginInit();
-                bitmapimage.StreamSource = memory;
-                bitmapimage.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapimage.EndInit();
-
-                return bitmapimage;
-            }
-        }
-
-
-        private void WindowLoaded(object sender, EventArgs e)
-        {
-            Bitmap bmp = new Bitmap((int)Math.Floor(MainDisplay.Width), (int)Math.Floor(MainDisplay.Height));
-            TestDrawLine(bmp);
-            MainDisplay.Source = FromBitmap(bmp);
         }
     }
 }
