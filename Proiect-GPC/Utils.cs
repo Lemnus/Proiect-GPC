@@ -41,5 +41,11 @@ namespace Proiect_GPC
             int pivotY = hashPoints.Sum((point) => point.Y) / hashPoints.Count;
             return new Point(pivotX, pivotY);
         }
+
+        public static void TestData()
+        {
+            Bitmap bmp = new Bitmap(0, 0);
+            MidPoint.DrawLine(bmp, new Point(0, 0), new Point(0, 0));
+        }
     }
 }
