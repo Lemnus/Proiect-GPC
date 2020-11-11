@@ -21,7 +21,7 @@ namespace Proiect_GPC
             int X2 = point2.X;
             int Y2 = point2.Y;
 
-            // setam dimensiunea cu cea mai mare diferenta pe X ca fiind axa X
+            // setam dimensiunea cu cea mai mare diferenta intre puncte ca fiind axa X
             int dx = X2 - X1;
             int dy = Y2 - Y1;
             int moddx = Math.Abs(dx);
@@ -31,6 +31,7 @@ namespace Proiect_GPC
 
             List<Point> deltaList;
 
+            // calculam o lista intermediara care contine diferentele pe x si y fata de punctul initial care trebuie aplicate fiecarui punct din linie
             if (invertedAxis)
             {
                 if (negativeY)
@@ -52,7 +53,7 @@ namespace Proiect_GPC
 
             List<Point> ret = new List<Point>();
 
-            // adaugam punctle mapate in lista de pixeli ce trebuiesc setati
+            // adaugam punctele mapate in lista de pixeli ce trebuie setati
             foreach (Point p in deltaList)
             {
                 if (invertedAxis)
