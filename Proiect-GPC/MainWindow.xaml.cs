@@ -54,11 +54,11 @@ namespace Proiect_GPC
                     pivot = Utils.CenterPoint(unrotatedPoints);
                 }
                 UpdateBoard();
-                UpdateInfo("Point added!", 2000);
+                UpdateInfo("Punct adaugat!", 2000);
             }
             catch
             {
-                UpdateInfo("Invalid point input!", 2000);
+                UpdateInfo("Punct invalid!", 2000);
             }
             finally
             {
@@ -74,7 +74,7 @@ namespace Proiect_GPC
             pivot = DEFAULT_PIVOT;
             customPivotSet = false;
             UpdateBoard();
-            UpdateInfo("Board cleared!", 2000);
+            UpdateInfo("Tabla a fost resetata!", 2000);
         }
 
         private void RotatePoints(object sender, RoutedEventArgs e)
@@ -84,11 +84,18 @@ namespace Proiect_GPC
                 decimal angle = decimal.Parse(AngleInput.Text);
                 displayPoints = Rotation.RotatePoints(unrotatedPoints, angle, pivot);
                 UpdateBoard();
-                UpdateInfo("Shape rotated!", 2000);
+                UpdateInfo("Forma a fost rotita!", 2000);
             }
-            catch
+            catch (Exception ex)
             {
-                UpdateInfo("Invalid rotation angle input!", 2000);
+                if (ex is ArgumentNullException || ex is FormatException || ex is OverflowException)
+                {
+                    UpdateInfo("Unghi de rotatie invalid!", 2000);
+                }
+                else
+                {
+                    UpdateInfo(ex.Message, 2000);
+                }
             }
             finally
             {
@@ -105,10 +112,16 @@ namespace Proiect_GPC
                 pivot = new Point(x, y);
                 customPivotSet = true;
                 UpdateBoard();
+                UpdateInfo("Pivotul de rotatie a fost setat!", 2000);
             }
             catch
             {
-                UpdateInfo("Invalid pivot point input!", 2000);
+                UpdateInfo("Punct invalid!", 2000);
+            }
+            finally
+            {
+                PivotInputX.Text = "";
+                PivotInputY.Text = "";
             }
         }
 
@@ -117,7 +130,11 @@ namespace Proiect_GPC
             Bitmap bmp = Utils.GetEmptyBitmap(MainDisplay);
             if (pivot != DEFAULT_PIVOT)
             {
-                bmp.SetPixel(pivot.X, pivot.Y, Color.White);
+                bmp.SetPixel(pivot.X, pivot.Y, Color.Red);
+            }
+            foreach (Point p in displayPoints)
+            {
+                bmp.SetPixel(p.X, p.Y, Color.White);
             }
             MidPoint.DrawShape(displayPoints, bmp);
             MainDisplay.Source = Utils.FromBitmap(bmp);

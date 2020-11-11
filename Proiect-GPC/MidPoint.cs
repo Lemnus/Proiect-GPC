@@ -12,7 +12,7 @@ namespace Proiect_GPC
     {
         public static void DrawLine(Bitmap bmp, Point point1, Point point2)
         {
-            // check if case 3/4/5/6 and invert points if so
+            // daca suntem in unul din cazurile 3/4/5/6 inversam punctele
             if (point1.X > point2.X)
                 Swap(ref point1, ref point2);
 
@@ -21,7 +21,7 @@ namespace Proiect_GPC
             int X2 = point2.X;
             int Y2 = point2.Y;
 
-            // set dimension with biggest difference as X-axis
+            // setam dimensiunea cu cea mai mare diferenta pe X ca fiind axa X
             int dx = X2 - X1;
             int dy = Y2 - Y1;
             int moddx = Math.Abs(dx);
@@ -35,24 +35,24 @@ namespace Proiect_GPC
             {
                 if (negativeY)
                     // caz 7
-                    deltaList = getDeltaList(-dy, dx);
+                    deltaList = GetDeltaList(-dy, dx);
                 else
                     // caz 2
-                    deltaList = getDeltaList(dy, dx);
+                    deltaList = GetDeltaList(dy, dx);
             }
             else
             {
                 if (negativeY)
                     //caz 8
-                    deltaList = getDeltaList(dx, -dy);
+                    deltaList = GetDeltaList(dx, -dy);
                 else
                     //caz 1
-                    deltaList = getDeltaList(dx, dy);
+                    deltaList = GetDeltaList(dx, dy);
             }
 
             List<Point> ret = new List<Point>();
 
-            // add mapped values in ret
+            // adaugam punctle mapate in lista de pixeli ce trebuiesc setati
             foreach (Point p in deltaList)
             {
                 if (invertedAxis)
@@ -75,38 +75,40 @@ namespace Proiect_GPC
                 }
             }
 
-            // display points
+            // setam pixelii pe bitmap
             foreach (Point p in ret)
             {
-                bmp.SetPixel(p.X, p.Y, Color.White);
+                try
+                {
+                    bmp.SetPixel(p.X, p.Y, Color.White);
+                }
+                catch (ArgumentOutOfRangeException) { }
             }
         }
 
-        // return a list of deltas for each point (considering starting point as origin)
-        static List<Point> getDeltaList(int X2, int Y2, int X1 = 0, int Y1 = 0)
+        // returneaza o lista de diferente pentru fiecare punct (fata de originea X1, Y1 - implicit punctul 0, 0)
+        static List<Point> GetDeltaList(int X2, int Y2, int X1 = 0, int Y1 = 0)
         {
             List<Point> list = new List<Point>();
-            // calculate dx & dy 
             int dx = X2 - X1;
             int dy = Y2 - Y1;
 
-            // initial value of decision 
-            // parameter d 
+            // valoarea initiala a parametrului de decizie d
             int d = dy - (dx / 2);
             int x = X1, y = Y1;
 
-            // iterate through value of X 
+            // iteram prin valorile lui x
             while (x <= X2)
             {
                 list.Add(new Point(x, y));
 
                 x++;
 
-                // E or East is chosen 
+                // cadranul de est
                 if (d < 0)
                     d = d + dy;
 
-                // NE or North East is chosen 
+                // cadranul de nord est
                 else
                 {
                     d += (dy - dx);
@@ -123,6 +125,20 @@ namespace Proiect_GPC
             p1 = p2;
             p2 = temp;
         }
+
+        public static void DrawShape(List<Point> points, Bitmap bmp)
+        {
+            if (points.Count < 2)
+            {
+                return;
+            }
+
+            for (int i = 1; i < points.Count; ++i)
+            {
+                DrawLine(points[i - 1], points[i], bmp);
+            }
+        }
+
         private static void DrawLine(Point a, Point b, Bitmap bitmap)
         {
             decimal dX = b.X - a.X;
@@ -148,19 +164,5 @@ namespace Proiect_GPC
                 catch (ArgumentOutOfRangeException) { }
             }
         }
-
-        public static void DrawShape(List<Point> points, Bitmap bmp)
-        {
-            if (points.Count < 2)
-            {
-                return;
-            }
-
-            for (int i = 1; i < points.Count; ++i)
-            {
-                DrawLine(points[i - 1], points[i], bmp);
-            }
-        }
-
     }
 }

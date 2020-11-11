@@ -9,6 +9,14 @@ namespace Proiect_GPC
     {
         public static List<Point> RotatePoints(List<Point> points, decimal angle, Point pivot)
         {
+            if (points.Count == 0)
+            {
+                throw new Exception("Nu exista puncte ce sa fie rotite!");
+            }
+            if (points.Count == 1 && points[0] == pivot)
+            {
+                throw new Exception("Nu se poate rotii un singur punct in jurul lui insusi!");
+            }
             return points.Select((point) => point.RotateAround(pivot, angle)).ToList();
         }
 
