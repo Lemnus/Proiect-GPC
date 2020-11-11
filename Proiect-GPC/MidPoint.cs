@@ -126,7 +126,7 @@ namespace Proiect_GPC
             p2 = temp;
         }
 
-        public static void DrawShape(List<Point> points, Bitmap bmp)
+        public static void DrawShape(List<Point> points, Bitmap bmp, Color color)
         {
             if (points.Count < 2)
             {
@@ -135,11 +135,11 @@ namespace Proiect_GPC
 
             for (int i = 1; i < points.Count; ++i)
             {
-                DrawLine(points[i - 1], points[i], bmp);
+                DrawLine(points[i - 1], points[i], bmp, color);
             }
         }
 
-        private static void DrawLine(Point a, Point b, Bitmap bitmap)
+        private static void DrawLine(Point a, Point b, Bitmap bitmap, Color color)
         {
             decimal dX = b.X - a.X;
             decimal dY = b.Y - a.Y;
@@ -159,7 +159,7 @@ namespace Proiect_GPC
                 int pixelY = (int)Math.Round(y);
                 try
                 {
-                    bitmap.SetPixel(pixelX, pixelY, Color.White);
+                    bitmap.SetPixel(pixelX, pixelY, color);
                 }
                 catch (ArgumentOutOfRangeException) { }
             }

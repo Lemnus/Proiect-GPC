@@ -128,6 +128,8 @@ namespace Proiect_GPC
         private void UpdateBoard()
         {
             Bitmap bmp = Utils.GetEmptyBitmap(MainDisplay);
+            MidPoint.DrawShape(unrotatedPoints, bmp, Color.Gray);
+            MidPoint.DrawShape(displayPoints, bmp, Color.White);
             if (pivot != DEFAULT_PIVOT)
             {
                 bmp.SetPixel(pivot.X, pivot.Y, Color.Red);
@@ -136,7 +138,6 @@ namespace Proiect_GPC
             {
                 bmp.SetPixel(p.X, p.Y, Color.White);
             }
-            MidPoint.DrawShape(displayPoints, bmp);
             MainDisplay.Source = Utils.FromBitmap(bmp);
         }
 
