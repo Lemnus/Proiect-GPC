@@ -43,12 +43,24 @@ namespace Proiect_GPC
 
         private void AddNewPoint(object sender, RoutedEventArgs e)
         {
+            bool added = false;
+
+            void AddPoint(int x, int y)
+            {
+                if (x > (int)Math.Floor(MainDisplay.Width) || y > (int)Math.Floor(MainDisplay.Height) || x < 0 || y < 0)
+                {
+                    throw new Exception("Invalid point");
+                }
+                unrotatedPoints.Add(new Point(x, y));
+                displayPoints = new List<Point>(unrotatedPoints);
+                added = true;
+            }
+
             try
             {
                 int x = int.Parse(XInput.Text);
                 int y = int.Parse(YInput.Text);
-                unrotatedPoints.Add(new Point(x, y));
-                displayPoints = new List<Point>(unrotatedPoints);
+                AddPoint(x, y);
                 if (!customPivotSet)
                 {
                     pivot = Utils.CenterPoint(unrotatedPoints);
@@ -58,6 +70,11 @@ namespace Proiect_GPC
             }
             catch
             {
+                if (added)
+                {
+                    unrotatedPoints.Remove(unrotatedPoints.Last());
+                    displayPoints.Remove(unrotatedPoints.Last());
+                }
                 UpdateInfo("Punct invalid!", 2000);
             }
             finally
